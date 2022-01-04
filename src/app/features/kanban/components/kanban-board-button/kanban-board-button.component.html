@@ -1,1 +1,36 @@
-<p>kanban-board-button works!</p>
+<div id="kanban-board-button-wrapper">
+  <button
+    *ngIf="!isTheInputPanelOpen"
+    id="kanban-board-button"
+    data-testid="kanban-board-button"
+    class="with-icon"
+    (click)="openTheInputPanel()"
+  >
+    <app-svg-icon [iconUrl]="'assets/icons/white-plus.svg'" [iconAltText]="'+'"></app-svg-icon>
+    <span> Add new list </span>
+  </button>
+  
+  <div
+    *ngIf="isTheInputPanelOpen"
+    id="board-input-panel"
+    data-testid="board-input-panel"
+  >
+    <input type="text" placeholder="Insert the list title..." [(ngModel)]="listTitle">
+    <button
+      class="primary"
+      data-testid="add-list-button"
+      (click)="insertNewList()"
+    > Add List </button>
+    <button
+      class="only-icon"
+      data-testid="close-panel-button"
+      (click)="closeTheInputPanel()"
+    >
+      <app-svg-icon
+        [iconUrl]="'assets/icons/black-close.svg'"
+        [iconAltText]="'X'"
+        [iconSize]="18"
+      ></app-svg-icon>
+    </button>
+  </div>
+</div>

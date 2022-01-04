@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { KanbanBoardButtonComponent } from './kanban-board-button.component';
 
 describe('KanbanBoardButtonComponent', () => {
+
   let component: KanbanBoardButtonComponent;
   let fixture: ComponentFixture<KanbanBoardButtonComponent>;
 
@@ -19,7 +20,8 @@ describe('KanbanBoardButtonComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('create the component', () => {
     expect(component).toBeTruthy();
   });
+
 });
