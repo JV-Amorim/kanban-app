@@ -13,12 +13,12 @@ export class KanbanBoardButtonComponent {
   constructor() { }
 
   openTheInputPanel(): void {
-    this.resetTheListTitleInput();
     this.isTheInputPanelOpen = true;
   }
 
   closeTheInputPanel(): void {
     this.isTheInputPanelOpen = false;
+    this.resetTheListTitle();
   }
 
   insertNewList(): void {
@@ -26,7 +26,7 @@ export class KanbanBoardButtonComponent {
     console.log(this.listTitle);
   }
 
-  private resetTheListTitleInput(): void {
+  private resetTheListTitle(): void {
     this.listTitle = '';
   }
 }
