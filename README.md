@@ -1,6 +1,10 @@
 # Kanban App
 
+A Kanban application created with Angular. The data is saved in LocalStorage and the entire app has automated tests.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
+
+<!-- TODO - Improve the README. -->
 
 ## Development server
 
