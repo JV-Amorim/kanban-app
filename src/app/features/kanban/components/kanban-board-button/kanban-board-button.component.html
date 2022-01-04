@@ -6,7 +6,7 @@
     class="with-icon"
     (click)="openTheInputPanel()"
   >
-    <app-svg-icon [iconUrl]="'assets/icons/white-plus.svg'" [iconAltText]="'+'"></app-svg-icon>
+    <app-svg-icon [iconName]="'white-plus'" [iconAltText]="'+'"></app-svg-icon>
     <span> Add new list </span>
   </button>
   
@@ -27,7 +27,7 @@
       (click)="closeTheInputPanel()"
     >
       <app-svg-icon
-        [iconUrl]="'assets/icons/black-close.svg'"
+        [iconName]="'black-close'"
         [iconAltText]="'X'"
         [iconSize]="18"
       ></app-svg-icon>

@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SvgIconComponent {
 
-  @Input() iconUrl = '';
+  @Input() iconName = '';
   @Input() iconAltText = '';
   @Input() iconSize = 16;
 
