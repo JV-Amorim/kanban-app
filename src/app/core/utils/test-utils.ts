@@ -8,10 +8,25 @@ export class TestUtils {
     return fixture.debugElement.query(By.css(`[data-testid="${testId}"]`));
   }
 
-  public static triggerElementClick<T>(fixture: ComponentFixture<T>, testId: string): void {
-    const element = TestUtils.findElementByTestId(fixture, testId);
+  public static triggerElementClick<T>(fixture: ComponentFixture<T>, elementTestId: string): void {
+    const element = TestUtils.findElementByTestId(fixture, elementTestId);
     const event = TestUtils.makeClickEvent(element.nativeElement);
     element.triggerEventHandler('click', event);
+  }
+
+  public static triggerDocumentKeyUp<T>(key: string): void {
+    const event = new KeyboardEvent('keyup', { key });
+    document.dispatchEvent(event);
+  }
+
+  public static expectElementToBeTruthy<T>(fixture: ComponentFixture<T>, elementTestId: string): void {
+    const element = TestUtils.findElementByTestId(fixture, elementTestId);
+    expect(element).toBeTruthy();
+  }
+
+  public static expectElementToBeFalsy<T>(fixture: ComponentFixture<T>, elementTestId: string): void {
+    const element = TestUtils.findElementByTestId(fixture, elementTestId);
+    expect(element).toBeFalsy();
   }
 
   public static makeClickEvent(target: EventTarget): Partial<MouseEvent> {
@@ -26,16 +41,6 @@ export class TestUtils {
       cancelable: true,
       button: 0
     };
-  }
-
-  public static expectElementToBeTruthy<T>(fixture: ComponentFixture<T>, testId: string): void {
-    const element = TestUtils.findElementByTestId(fixture, testId);
-    expect(element).toBeTruthy();
-  }
-
-  public static expectElementToBeFalsy<T>(fixture: ComponentFixture<T>, testId: string): void {
-    const element = TestUtils.findElementByTestId(fixture, testId);
-    expect(element).toBeFalsy();
   }
 
 }

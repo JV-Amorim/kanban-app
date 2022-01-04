@@ -37,11 +37,23 @@ describe('KanbanBoardButtonComponent', () => {
     TestUtils.expectElementToBeFalsy(fixture, 'kanban-board-button');
   });
 
-  it('closes the input panel', () => {
+  it('closes the input panel when the close button is clicked', () => {
     component.isTheInputPanelOpen = true;
     fixture.detectChanges();
 
     TestUtils.triggerElementClick(fixture, 'close-panel-button');
+    fixture.detectChanges();
+
+    expect(component.isTheInputPanelOpen).toBe(false);
+    TestUtils.expectElementToBeFalsy(fixture, 'board-input-panel');
+    TestUtils.expectElementToBeTruthy(fixture, 'kanban-board-button');
+  });
+
+  it('closes the input panel when the "Escape" key is pressed', () => {
+    component.isTheInputPanelOpen = true;
+    fixture.detectChanges();
+
+    TestUtils.triggerDocumentKeyUp('Escape');
     fixture.detectChanges();
 
     expect(component.isTheInputPanelOpen).toBe(false);
