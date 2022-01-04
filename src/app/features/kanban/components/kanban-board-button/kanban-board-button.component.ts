@@ -1,16 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { fromEvent, map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-kanban-board-button',
   templateUrl: './kanban-board-button.component.html',
   styleUrls: ['./kanban-board-button.component.scss']
 })
-export class KanbanBoardButtonComponent {
+export class KanbanBoardButtonComponent implements OnDestroy {
+
+  private keyboardEventSubscription: Subscription | undefined;
 
   isTheInputPanelOpen = false;
   listTitle = '';
 
-  constructor() { }
+  constructor() {
+    this.subscribeToKeyboardEvents();
+  }
+
+  ngOnDestroy(): void {
+    if (this.keyboardEventSubscription) {
+      this.keyboardEventSubscription.unsubscribe();
+    }
+  }
 
   openTheInputPanel(): void {
     this.isTheInputPanelOpen = true;
@@ -24,6 +35,18 @@ export class KanbanBoardButtonComponent {
   insertNewList(): void {
     // TODO - Insert the new list by calling a service method.
     console.log(this.listTitle);
+  }
+
+  private subscribeToKeyboardEvents(): void {
+    this.keyboardEventSubscription = fromEvent(document, 'keyup')
+      .pipe(
+        map(event => event as KeyboardEvent)
+      )
+      .subscribe(event => {
+        if (event.key === 'Escape') {
+          this.closeTheInputPanel();
+        }
+      });
   }
 
   private resetTheListTitle(): void {

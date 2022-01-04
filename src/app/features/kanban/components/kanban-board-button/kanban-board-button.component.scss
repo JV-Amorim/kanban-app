@@ -25,6 +25,7 @@
 #board-input-panel {
   padding: 5px;
   background-color: $panel-bg-color;
+  border-radius: 3px;
   animation-name: board-input-panel-animation;
   animation-duration: 300ms;
   animation-fill-mode: forwards;
