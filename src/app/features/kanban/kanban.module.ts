@@ -6,6 +6,7 @@ import { KanbanBoardComponent } from './components/kanban-board/kanban-board.com
 import { KanbanListComponent } from './components/kanban-list/kanban-list.component';
 import { KanbanListItemComponent } from './components/kanban-list-item/kanban-list-item.component';
 import { KanbanBoardButtonComponent } from './components/kanban-board-button/kanban-board-button.component';
+import { KanbanService } from './services/kanban.service';
 import { SvgIconModule } from '@shared/svg-icon/svg-icon.module';
 
 @NgModule({
@@ -22,6 +23,9 @@ import { SvgIconModule } from '@shared/svg-icon/svg-icon.module';
   ],
   exports: [
     KanbanBoardComponent
+  ],
+  providers: [
+    KanbanService
   ]
 })
 export class KanbanModule { }
