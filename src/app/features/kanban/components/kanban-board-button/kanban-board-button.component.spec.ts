@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KanbanBoardButtonComponent } from './kanban-board-button.component';
+import { KanbanService } from '@features/kanban/services/kanban.service';
 import { TestUtils } from '@core/utils';
 
 describe('KanbanBoardButtonComponent', () => {
@@ -12,7 +13,8 @@ describe('KanbanBoardButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KanbanBoardButtonComponent ]
+      declarations: [ KanbanBoardButtonComponent ],
+      providers: [ KanbanService ]
     })
     .compileComponents();
   });

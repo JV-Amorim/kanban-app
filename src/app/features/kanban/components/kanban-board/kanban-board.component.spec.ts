@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KanbanBoardComponent } from './kanban-board.component';
+import { KanbanService } from '@features/kanban/services/kanban.service';
 
 describe('KanbanBoardComponent', () => {
 
@@ -9,7 +10,8 @@ describe('KanbanBoardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KanbanBoardComponent ]
+      declarations: [ KanbanBoardComponent ],
+      providers: [ KanbanService ]
     })
     .compileComponents();
   });

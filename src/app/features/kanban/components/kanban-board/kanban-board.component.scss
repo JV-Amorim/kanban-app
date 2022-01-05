@@ -1,5 +1,17 @@
-#kanban-board {
+#kanban-board-wrapper {
   height: 100%;
   background-image: url('../../../../../assets/img/default-bg.jpg');
   background-size: cover;
 }
+
+#kanban-board {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  .kanban-list {
+    width: 270px;
+    margin: 0;
+  }
+}
+

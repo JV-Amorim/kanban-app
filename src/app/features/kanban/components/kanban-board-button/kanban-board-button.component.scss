@@ -1,9 +1,7 @@
 @import 'src/styles/app-variables.scss';
-@import '../kanban-list/component-variables.scss';
 
 #kanban-board-button-wrapper {
-  width: $kanban-list-width;
-  margin: 0;
+  width: 100%;
 }
 
 #kanban-board-button {

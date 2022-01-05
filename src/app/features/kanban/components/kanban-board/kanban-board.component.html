@@ -1,3 +1,13 @@
-<div id="kanban-board">
-  <app-kanban-board-button></app-kanban-board-button>
+<div id="kanban-board-wrapper">
+  <div id="kanban-board">
+    <ng-container *ngIf="kanbanBoardData">
+      <div *ngFor="let kanbanList of kanbanBoardData" class="kanban-list">
+        <app-kanban-list [kanbanList]="kanbanList"></app-kanban-list>
+      </div>
+    </ng-container>
+
+    <div class="kanban-list">
+      <app-kanban-board-button></app-kanban-board-button>
+    </div>
+  </div>
 </div>

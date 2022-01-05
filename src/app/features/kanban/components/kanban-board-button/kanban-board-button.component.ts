@@ -1,6 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { fromEvent, map, Subscription } from 'rxjs';
 
+import { KanbanService } from '@features/kanban/services/kanban.service';
+
 @Component({
   selector: 'app-kanban-board-button',
   templateUrl: './kanban-board-button.component.html',
@@ -13,7 +15,7 @@ export class KanbanBoardButtonComponent implements OnDestroy {
   isTheInputPanelOpen = false;
   listTitle = '';
 
-  constructor() {
+  constructor(private kanbanService: KanbanService) {
     this.subscribeToKeyboardEvents();
   }
 
@@ -33,8 +35,11 @@ export class KanbanBoardButtonComponent implements OnDestroy {
   }
 
   insertNewList(): void {
-    // TODO - Insert the new list by calling a service method.
-    console.log(this.listTitle);
+    if (!this.listTitle) {
+      return;
+    }
+    this.kanbanService.insertNewList(this.listTitle);
+    this.resetTheListTitle();
   }
 
   private subscribeToKeyboardEvents(): void {
