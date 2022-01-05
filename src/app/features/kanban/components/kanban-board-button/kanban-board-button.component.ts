@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { fromEvent, map, Subscription } from 'rxjs';
 
 import { KanbanService } from '@features/kanban/services/kanban.service';
@@ -15,7 +16,10 @@ export class KanbanBoardButtonComponent implements OnDestroy {
   isTheInputPanelOpen = false;
   listTitle = '';
 
-  constructor(private kanbanService: KanbanService) {
+  constructor(
+    private matSnackBar: MatSnackBar,
+    private kanbanService: KanbanService
+  ) {
     this.subscribeToKeyboardEvents();
   }
 
@@ -38,7 +42,14 @@ export class KanbanBoardButtonComponent implements OnDestroy {
     if (!this.listTitle) {
       return;
     }
-    this.kanbanService.insertNewList(this.listTitle);
+
+    this.kanbanService.insertNewList(this.listTitle)
+      .subscribe({
+        error: () => {
+          this.matSnackBar.open('Unable to add the list.', 'Close', { duration: 5000 });
+        }
+      });
+
     this.resetTheListTitle();
   }
 

@@ -6,7 +6,10 @@
     class="with-icon"
     (click)="openTheInputPanel()"
   >
-    <app-svg-icon [iconName]="'white-plus'" [iconAltText]="'+'"></app-svg-icon>
+    <app-svg-icon
+      [iconName]="'white-plus'"
+      [iconAltText]="'+'"
+    ></app-svg-icon>
     <span> Add new list </span>
   </button>
   
@@ -15,7 +18,11 @@
     id="board-input-panel"
     data-testid="board-input-panel"
   >
-    <input type="text" placeholder="Insert the list title..." [(ngModel)]="listTitle">
+    <input
+      type="text"
+      placeholder="Insert the list title..."
+      [(ngModel)]="listTitle"
+    >
     <button
       class="primary"
       data-testid="add-list-button"

@@ -18,7 +18,7 @@ export class KanbanService {
     return this.kanbanBoardSubject;
   }
 
-  insertNewList(listTitle: string): Observable<boolean> {
+  insertNewList(listTitle: string): Observable<any> {
     const kanbanBoard = this.getCopyOfTheLastEmittedKanbanBoard();
 
     kanbanBoard.push({
@@ -32,7 +32,7 @@ export class KanbanService {
     return of(true);
   }
 
-  insertNewCard(cardName: string, parentListId: number): Observable<boolean> {
+  insertNewCard(cardName: string, parentListId: number): Observable<any> {
     const kanbanBoard = this.getCopyOfTheLastEmittedKanbanBoard();
 
     for (const kanbanList of kanbanBoard) {
@@ -53,7 +53,7 @@ export class KanbanService {
     return [ ...this.lastEmittedKanbanBoard ];
   }
 
-  private insertNewCardInTheKanbanList(cardName: string, kanbanList: KanbanList): Observable<boolean> {
+  private insertNewCardInTheKanbanList(cardName: string, kanbanList: KanbanList): Observable<any> {
     kanbanList.childrenCards.push({
       id: kanbanList.childrenCards.length + 1,
       name: cardName,
