@@ -34,7 +34,7 @@ describe('KanbanBoardButtonComponent', () => {
 
   describe('input panel', () => {
 
-    it('opens the input panel', () => {
+    it('opens the input panel when the button is clicked', () => {
       TestUtils.triggerElementClick(fixture, 'kanban-board-button');
       fixture.detectChanges();
   
@@ -44,7 +44,7 @@ describe('KanbanBoardButtonComponent', () => {
     });
   
     it('closes the input panel when the close button is clicked', () => {
-      component.isTheInputPanelOpen = true;
+      TestUtils.triggerElementClick(fixture, 'kanban-board-button');
       fixture.detectChanges();
   
       TestUtils.triggerElementClick(fixture, 'close-panel-button');
@@ -56,7 +56,7 @@ describe('KanbanBoardButtonComponent', () => {
     });
   
     it('closes the input panel when the "Escape" key is pressed', () => {
-      component.isTheInputPanelOpen = true;
+      TestUtils.triggerElementClick(fixture, 'kanban-board-button');
       fixture.detectChanges();
   
       TestUtils.triggerDocumentKeyUp('Escape');
@@ -72,7 +72,7 @@ describe('KanbanBoardButtonComponent', () => {
   describe('list title input', () => {
 
     it('resets the list title input when the input panel closes', () => {
-      component.isTheInputPanelOpen = true;
+      TestUtils.triggerElementClick(fixture, 'kanban-board-button');
       fixture.detectChanges();   
   
       TestUtils.triggerElementClick(fixture, 'close-panel-button');
