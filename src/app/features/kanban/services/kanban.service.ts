@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 
-import { KanbanBoard, KanbanCard, KanbanErrors, KanbanList } from '../models';
+import { KanbanBoard, KanbanErrors, KanbanList } from '../models';
 
 @Injectable()
 export class KanbanService {
@@ -14,7 +14,7 @@ export class KanbanService {
     this.kanbanBoardSubject = new BehaviorSubject<KanbanBoard>(this.lastEmittedKanbanBoard);
   }
 
-  getKanbanBoardData(): BehaviorSubject<KanbanBoard> {
+  getKanbanBoardSubject(): BehaviorSubject<KanbanBoard> {
     return this.kanbanBoardSubject;
   }
 
@@ -50,7 +50,7 @@ export class KanbanService {
   }
 
   private getCopyOfTheLastEmittedKanbanBoard(): KanbanBoard {
-    return { ...this.lastEmittedKanbanBoard };
+    return [ ...this.lastEmittedKanbanBoard ];
   }
 
   private insertNewCardInTheKanbanList(cardName: string, kanbanList: KanbanList): Observable<boolean> {
@@ -65,7 +65,7 @@ export class KanbanService {
     kanbanBoard[kanbanListIndex] = kanbanList;
 
     this.emitUpdatedKanbanBoard(kanbanBoard);
-    
+
     return of(true);
   }
 }
