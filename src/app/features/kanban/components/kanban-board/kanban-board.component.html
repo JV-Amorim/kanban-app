@@ -7,7 +7,9 @@
     </ng-container>
 
     <div class="kanban-list">
-      <app-kanban-board-button></app-kanban-board-button>
+      <app-kanban-board-button
+        (onInsertList)="handleInsertListEvent($event)"
+      ></app-kanban-board-button>
     </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 
 import { KanbanService } from '@features/kanban/services/kanban.service';
@@ -15,7 +16,10 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   kanbanBoardData: KanbanBoard | undefined;
 
-  constructor(private kanbanService: KanbanService) { }
+  constructor(
+    private matSnackBar: MatSnackBar,
+    private kanbanService: KanbanService
+  ) { }
 
   ngOnInit(): void {
     this.subscribeToKanbanBoardSubject();
@@ -25,6 +29,15 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     if (this.kanbanBoardSubscription) {
       this.kanbanBoardSubscription.unsubscribe();
     }
+  }
+
+  handleInsertListEvent(listTitle: string): void {
+    this.kanbanService.insertNewList(listTitle)
+      .subscribe({
+        error: () => {
+          this.matSnackBar.open('Unable to add the list.', 'Close', { duration: 5000 });
+        }
+      });
   }
 
   private subscribeToKanbanBoardSubject(): void {

@@ -14,6 +14,20 @@ export class TestUtils {
     element.triggerEventHandler('click', event);
   }
 
+  public static makeClickEvent(target: EventTarget): Partial<MouseEvent> {
+    return {
+      preventDefault(): void { },
+      stopPropagation(): void { },
+      stopImmediatePropagation(): void { },
+      type: 'click',
+      target,
+      currentTarget: target,
+      bubbles: true,
+      cancelable: true,
+      button: 0
+    };
+  }
+
   public static triggerDocumentKeyUp<T>(key: string): void {
     const event = new KeyboardEvent('keyup', { key });
     document.dispatchEvent(event);
@@ -29,18 +43,10 @@ export class TestUtils {
     expect(element).toBeFalsy();
   }
 
-  public static makeClickEvent(target: EventTarget): Partial<MouseEvent> {
-    return {
-      preventDefault(): void { },
-      stopPropagation(): void { },
-      stopImmediatePropagation(): void { },
-      type: 'click',
-      target,
-      currentTarget: target,
-      bubbles: true,
-      cancelable: true,
-      button: 0
-    };
+  public static setInputElementValue<T>(fixture: ComponentFixture<T>, elementTestId: string, value: string): void {
+    const inputElement = TestUtils.findElementByTestId(fixture, elementTestId).nativeElement;
+    inputElement.value = value;
+    inputElement.dispatchEvent(new Event('input'));
   }
 
 }

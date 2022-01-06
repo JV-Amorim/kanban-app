@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { KanbanBoardComponent } from './kanban-board.component';
 import { KanbanService } from '@features/kanban/services/kanban.service';
@@ -11,6 +12,7 @@ describe('KanbanBoardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ KanbanBoardComponent ],
+      imports: [ MatSnackBarModule ],
       providers: [ KanbanService ]
     })
     .compileComponents();

@@ -1,6 +1,5 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { KanbanBoardButtonComponent } from './kanban-board-button.component';
 import { KanbanService } from '@features/kanban/services/kanban.service';
@@ -15,7 +14,6 @@ describe('KanbanBoardButtonComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ KanbanBoardButtonComponent ],
-      imports: [ MatSnackBarModule ],
       providers: [ KanbanService ]
     })
     .compileComponents();
@@ -73,7 +71,7 @@ describe('KanbanBoardButtonComponent', () => {
 
     it('resets the list title input when the input panel closes', () => {
       TestUtils.triggerElementClick(fixture, 'kanban-board-button');
-      fixture.detectChanges();   
+      fixture.detectChanges();
   
       TestUtils.triggerElementClick(fixture, 'close-panel-button');
       fixture.detectChanges();
