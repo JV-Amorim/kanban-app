@@ -20,7 +20,7 @@ describe('KanbanListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('create the component', () => {
+  it('renders without errors', () => {
     expect(component).toBeTruthy();
   });
 

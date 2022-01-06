@@ -16,7 +16,7 @@ describe('KanbanService', () => {
     service = TestBed.inject(KanbanService);
   });
 
-  it('create the service', () => {
+  it('is created without errors', () => {
     expect(service).toBeTruthy();
   });
 });

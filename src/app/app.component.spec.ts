@@ -15,7 +15,8 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  it('create the app', () => {
+  // Smoke Test:
+  it('renders without errors', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
