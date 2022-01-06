@@ -40,9 +40,9 @@ describe('KanbanBoardComponent', () => {
     spyOn(component, 'handleInsertListEvent');
 
     const kanbanBoardButton = TestUtils.findElementByTagName(fixture, 'app-kanban-board-button');
-    kanbanBoardButton.triggerEventHandler('onInsertList', 'Test');
+    kanbanBoardButton.triggerEventHandler('onInsertList', 'My List');
 
-    expect(component.handleInsertListEvent).toHaveBeenCalledWith('Test');
+    expect(component.handleInsertListEvent).toHaveBeenCalledWith('My List');
   });
 
 });

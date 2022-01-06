@@ -86,7 +86,7 @@ describe('KanbanBoardButtonComponent', () => {
       TestUtils.triggerElementClick(fixture, 'kanban-board-button');
       fixture.detectChanges();
 
-      TestUtils.setInputElementValue(fixture, 'list-title-input', 'Test');
+      TestUtils.setInputElementValue(fixture, 'list-title-input', 'My List');
       TestUtils.triggerElementClick(fixture, 'add-list-button');
 
       expect(component.listTitle).toBe('');
@@ -100,14 +100,14 @@ describe('KanbanBoardButtonComponent', () => {
       TestUtils.triggerElementClick(fixture, 'kanban-board-button');
       fixture.detectChanges();
 
-      TestUtils.setInputElementValue(fixture, 'list-title-input', 'Test');
+      TestUtils.setInputElementValue(fixture, 'list-title-input', 'My List');
 
       let actualListTitle: string | undefined;
       component.onInsertList.subscribe((listTitle) => actualListTitle = listTitle);
 
       TestUtils.triggerElementClick(fixture, 'add-list-button');
 
-      expect(actualListTitle).toBe('Test');
+      expect(actualListTitle).toBe('My List');
     });
 
     it('not emits an onInsertList event if the list title is empty', () => {
