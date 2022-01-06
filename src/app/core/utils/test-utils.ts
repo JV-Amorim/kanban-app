@@ -8,6 +8,10 @@ export class TestUtils {
     return fixture.debugElement.query(By.css(`[data-testid="${testId}"]`));
   }
 
+  public static findElementByTagName<T>(fixture: ComponentFixture<T>, selector: string): DebugElement {
+    return fixture.debugElement.query(By.css(selector));
+  }
+
   public static triggerElementClick<T>(fixture: ComponentFixture<T>, elementTestId: string): void {
     const element = TestUtils.findElementByTestId(fixture, elementTestId);
     const event = TestUtils.makeClickEvent(element.nativeElement);
