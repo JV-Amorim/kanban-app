@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KanbanBoardButtonComponent } from './kanban-board-button.component';
@@ -14,7 +14,8 @@ describe('KanbanBoardButtonComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ KanbanBoardButtonComponent ],
-      providers: [ KanbanService ]
+      providers: [ KanbanService ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

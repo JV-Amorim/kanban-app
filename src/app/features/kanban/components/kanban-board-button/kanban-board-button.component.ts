@@ -1,8 +1,6 @@
 import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { fromEvent, map, Subscription } from 'rxjs';
 
-import { KanbanService } from '@features/kanban/services/kanban.service';
-
 @Component({
   selector: 'app-kanban-board-button',
   templateUrl: './kanban-board-button.component.html',
@@ -17,7 +15,7 @@ export class KanbanBoardButtonComponent implements OnDestroy {
   
   @Output() onInsertList = new EventEmitter<string>();
 
-  constructor(private kanbanService: KanbanService) {
+  constructor() {
     this.subscribeToKeyboardEvents();
   }
 
