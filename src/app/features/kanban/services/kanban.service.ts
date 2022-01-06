@@ -35,13 +35,19 @@ export class KanbanService {
   insertNewCard(cardName: string, parentListId: number): Observable<any> {
     const kanbanBoard = this.getCopyOfTheLastEmittedKanbanBoard();
 
-    for (const kanbanList of kanbanBoard) {
-      if (kanbanList.id === parentListId) {
-        return this.insertNewCardInTheKanbanList(cardName, kanbanList);
-      }
+    const parentList = kanbanBoard.find(list => list.id === parentListId);
+    if (!parentList) {
+      return throwError(() => new Error(KanbanErrors.NonExistentParentList));
     }
+    parentList.childrenCards.push({
+      id: parentList.childrenCards.length + 1,
+      name: cardName,
+      parentList
+    });
 
-    return throwError(() => new Error(KanbanErrors.NonExistentParentList));
+    this.emitUpdatedKanbanBoard(kanbanBoard);
+
+    return of(true);
   }
 
   private emitUpdatedKanbanBoard(updatedKanbanBoard: KanbanBoard): void {
@@ -51,21 +57,5 @@ export class KanbanService {
 
   private getCopyOfTheLastEmittedKanbanBoard(): KanbanBoard {
     return [ ...this.lastEmittedKanbanBoard ];
-  }
-
-  private insertNewCardInTheKanbanList(cardName: string, kanbanList: KanbanList): Observable<any> {
-    kanbanList.childrenCards.push({
-      id: kanbanList.childrenCards.length + 1,
-      name: cardName,
-      parentList: kanbanList
-    });
-    
-    const kanbanBoard = this.getCopyOfTheLastEmittedKanbanBoard();
-    const kanbanListIndex = kanbanBoard.findIndex(list => list.id === kanbanList.id);
-    kanbanBoard[kanbanListIndex] = kanbanList;
-
-    this.emitUpdatedKanbanBoard(kanbanBoard);
-
-    return of(true);
   }
 }
