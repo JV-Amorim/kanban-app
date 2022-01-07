@@ -1,22 +1,14 @@
-import { Component, EventEmitter, NO_ERRORS_SCHEMA, Output } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
+import { MockComponent } from 'ng-mocks';
 
-import { TestUtils } from '@core/utils';
 import { KanbanService } from '@features/kanban/services/kanban.service';
 import { KanbanBoardComponent } from './kanban-board.component';
 import { KanbanBoardButtonComponent } from '../kanban-board-button/kanban-board-button.component';
 
 describe('KanbanBoardComponent', () => {
-
-  @Component({
-    selector: 'app-kanban-board-button',
-    template: ''
-  })
-  class FakeKanbanBoardButtonComponent implements Partial<KanbanBoardButtonComponent> {
-    @Output() onInsertList = new EventEmitter<string>();
-  }
 
   let component: KanbanBoardComponent;
   let fixture: ComponentFixture<KanbanBoardComponent>;
@@ -24,10 +16,10 @@ describe('KanbanBoardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KanbanBoardComponent, FakeKanbanBoardButtonComponent ],
+      declarations: [ KanbanBoardComponent, MockComponent(KanbanBoardButtonComponent) ],
       imports: [ MatSnackBarModule ],
       providers: [ KanbanService ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   });
@@ -38,7 +30,7 @@ describe('KanbanBoardComponent', () => {
     fixture.detectChanges();
 
     const debugElementOfKanbanBoardButton = fixture.debugElement.query(
-      By.directive(FakeKanbanBoardButtonComponent)
+      By.directive(KanbanBoardButtonComponent)
     );
     kanbanBoardButton = debugElementOfKanbanBoardButton.componentInstance;
   });
