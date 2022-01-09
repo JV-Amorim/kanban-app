@@ -16,7 +16,6 @@ describe('KanbanBoardButtonComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ KanbanBoardButtonComponent ],
       imports: [ FormsModule ],
-      providers: [ KanbanService ],
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
