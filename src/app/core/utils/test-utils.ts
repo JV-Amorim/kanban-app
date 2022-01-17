@@ -12,6 +12,10 @@ export class TestUtils {
     return fixture.debugElement.query(By.css(selector));
   }
 
+  public static findElementsByTagName<T>(fixture: ComponentFixture<T>, selector: string): DebugElement[] {
+    return fixture.debugElement.queryAll(By.css(selector));
+  }
+
   public static triggerElementClick<T>(fixture: ComponentFixture<T>, elementTestId: string): void {
     const element = TestUtils.findElementByTestId(fixture, elementTestId);
     const event = TestUtils.makeClickEvent(element.nativeElement);

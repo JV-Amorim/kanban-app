@@ -2,23 +2,39 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
+import { BehaviorSubject, of } from 'rxjs';
 import { MockComponent } from 'ng-mocks';
 
-import { KanbanService } from '@features/kanban/services/kanban.service';
+import { TestUtils } from '@core/utils';
 import { KanbanBoardComponent } from './kanban-board.component';
 import { KanbanBoardButtonComponent } from '../kanban-board-button/kanban-board-button.component';
+import { KanbanService } from '@features/kanban/services/kanban.service';
+import { KanbanBoard } from '@features/kanban/models';
 
 describe('KanbanBoardComponent', () => {
+
+  const kanbanBoardData: KanbanBoard = [
+    { id: 1, title: 'My First List', childrenCards: [] },
+    { id: 2, title: 'My Second List', childrenCards: [] },
+    { id: 3, title: 'My Third List', childrenCards: [] }
+  ];
 
   let component: KanbanBoardComponent;
   let fixture: ComponentFixture<KanbanBoardComponent>;
   let kanbanBoardButton: KanbanBoardButtonComponent;
+  let fakeKanbanService: KanbanService;
 
   beforeEach(async () => {
+    fakeKanbanService = jasmine.createSpyObj<KanbanService>('KanbanService', {
+      getKanbanBoardSubject: new BehaviorSubject<KanbanBoard>(kanbanBoardData)
+    });
+
     await TestBed.configureTestingModule({
       declarations: [ KanbanBoardComponent, MockComponent(KanbanBoardButtonComponent) ],
       imports: [ MatSnackBarModule ],
-      providers: [ KanbanService ],
+      providers: [
+        { provide: KanbanService, useValue: fakeKanbanService }
+      ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
@@ -39,16 +55,43 @@ describe('KanbanBoardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('renders an independent kanban-board-button', () => {
-    expect(kanbanBoardButton).toBeTruthy();
+  describe('kanban-board-button child component', () => {
+
+    it('renders an independent kanban-board-button', () => {
+      expect(kanbanBoardButton).toBeTruthy();
+    });
+  
+    it('listens for onInsertList events', () => {
+      spyOn(component, 'handleInsertListEvent');
+  
+      kanbanBoardButton.onInsertList.emit('My List');
+  
+      expect(component.handleInsertListEvent).toHaveBeenCalledWith('My List');
+    });
+    
   });
 
-  it('listens for onInsertList events', () => {
-    spyOn(component, 'handleInsertListEvent');
+  describe('kanban-list child components', () => {
 
-    kanbanBoardButton.onInsertList.emit('My List');
+    it('renders the correct quantity of kanban-list', () => {
+      const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
 
-    expect(component.handleInsertListEvent).toHaveBeenCalledWith('My List');
+      expect(fakeKanbanService.getKanbanBoardSubject).toHaveBeenCalled();
+      expect(kanbanListElements.length).toBe(kanbanBoardData.length);
+    });
+
+    it('update the rendered kanban-lists with new data', () => {
+      const newKanbanBoardData = kanbanBoardData.slice(0, 2);
+      
+      const kanbanBoardSubject = fakeKanbanService.getKanbanBoardSubject();
+      kanbanBoardSubject.next(newKanbanBoardData);
+      fixture.detectChanges();
+
+      const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
+
+      expect(kanbanListElements.length).toBe(newKanbanBoardData.length);
+    });
+
   });
 
 });
