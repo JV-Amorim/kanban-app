@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 
-import { KanbanBoard, KanbanErrors, KanbanList } from '../models';
+import { KanbanBoard, KanbanCard, KanbanErrors, KanbanList } from '../models';
 
 @Injectable()
 export class KanbanService {
@@ -18,18 +18,19 @@ export class KanbanService {
     return this.kanbanBoardSubject;
   }
 
-  insertNewList(listTitle: string): Observable<any> {
+  insertNewList(listTitle: string): Observable<KanbanList> {
     const kanbanBoard = this.getCopyOfTheLastEmittedKanbanBoard();
 
-    kanbanBoard.push({
+    const newList = {
       id: kanbanBoard.length + 1,
       title: listTitle,
       childrenCards: []
-    });
+    };    
 
+    kanbanBoard.push(newList);
     this.emitUpdatedKanbanBoard(kanbanBoard);
-
-    return of(true);
+    
+    return of(newList);
   }
 
   private getCopyOfTheLastEmittedKanbanBoard(): KanbanBoard {
@@ -41,21 +42,23 @@ export class KanbanService {
     this.kanbanBoardSubject.next(this.lastEmittedKanbanBoard);
   }
 
-  insertNewCard(cardName: string, parentListId: number): Observable<any> {
+  insertNewCard(cardName: string, parentListId: number): Observable<KanbanCard> {
     const kanbanBoard = this.getCopyOfTheLastEmittedKanbanBoard();
 
     const parentList = kanbanBoard.find(list => list.id === parentListId);
     if (!parentList) {
       return throwError(() => new Error(KanbanErrors.NonExistentParentList));
     }
-    parentList.childrenCards.push({
+
+    const newCard = {
       id: parentList.childrenCards.length + 1,
       name: cardName,
       parentList
-    });
+    };
 
+    parentList.childrenCards.push(newCard);
     this.emitUpdatedKanbanBoard(kanbanBoard);
 
-    return of(true);
+    return of(newCard);
   }
 }

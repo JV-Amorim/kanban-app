@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 
 import { KanbanService } from '@features/kanban/services/kanban.service';
-import { KanbanBoard } from '@features/kanban/models';
+import { KanbanBoard, KanbanErrors } from '@features/kanban/models';
 
 @Component({
   selector: 'app-kanban-board',
@@ -35,13 +35,14 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.kanbanService.insertNewList(listTitle)
       .subscribe({
         error: () => {
-          this.matSnackBar.open('Unable to add the list.', 'Close', { duration: 5000 });
+          this.matSnackBar.open(KanbanErrors.UnableToInsertList, 'Close', { duration: 5000 });
         }
       });
   }
 
   private subscribeToKanbanBoardSubject(): void {
-    this.kanbanBoardSubscription = this.kanbanService.getKanbanBoardSubject()
-      .subscribe(kanbanBoard => this.kanbanBoardData = kanbanBoard);
+    this.kanbanBoardSubscription =
+      this.kanbanService.getKanbanBoardSubject()
+        .subscribe(kanbanBoard => this.kanbanBoardData = kanbanBoard);
   }
 }

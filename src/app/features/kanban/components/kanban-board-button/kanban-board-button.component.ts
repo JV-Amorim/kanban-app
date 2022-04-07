@@ -43,15 +43,16 @@ export class KanbanBoardButtonComponent implements OnDestroy {
   }
 
   private subscribeToKeyboardEvents(): void {
-    this.keyboardEventSubscription = fromEvent(document, 'keyup')
-      .pipe(
-        map(event => event as KeyboardEvent)
-      )
-      .subscribe(event => {
-        if (event.key === 'Escape') {
-          this.closeTheInputPanel();
-        }
-      });
+    this.keyboardEventSubscription =
+      fromEvent(document, 'keyup')
+        .pipe(
+          map(event => event as KeyboardEvent)
+        )
+        .subscribe(event => {
+          if (event.key === 'Escape') {
+            this.closeTheInputPanel();
+          }
+        });
   }
 
   private resetTheListTitle(): void {
