@@ -32,6 +32,15 @@ export class KanbanService {
     return of(true);
   }
 
+  private getCopyOfTheLastEmittedKanbanBoard(): KanbanBoard {
+    return [ ...this.lastEmittedKanbanBoard ];
+  }
+
+  private emitUpdatedKanbanBoard(updatedKanbanBoard: KanbanBoard): void {
+    this.lastEmittedKanbanBoard = updatedKanbanBoard;
+    this.kanbanBoardSubject.next(this.lastEmittedKanbanBoard);
+  }
+
   insertNewCard(cardName: string, parentListId: number): Observable<any> {
     const kanbanBoard = this.getCopyOfTheLastEmittedKanbanBoard();
 
@@ -48,14 +57,5 @@ export class KanbanService {
     this.emitUpdatedKanbanBoard(kanbanBoard);
 
     return of(true);
-  }
-
-  private emitUpdatedKanbanBoard(updatedKanbanBoard: KanbanBoard): void {
-    this.lastEmittedKanbanBoard = updatedKanbanBoard;
-    this.kanbanBoardSubject.next(this.lastEmittedKanbanBoard);
-  }
-
-  private getCopyOfTheLastEmittedKanbanBoard(): KanbanBoard {
-    return [ ...this.lastEmittedKanbanBoard ];
   }
 }
