@@ -12,6 +12,7 @@ export class KanbanBoardButtonComponent implements OnDestroy {
 
   isTheInputPanelOpen = false;
   listTitle = '';
+  submitted = false;
   
   @Output() onInsertList = new EventEmitter<string>();
 
@@ -32,12 +33,16 @@ export class KanbanBoardButtonComponent implements OnDestroy {
   closeTheInputPanel(): void {
     this.isTheInputPanelOpen = false;
     this.resetTheListTitle();
+    this.submitted = false;
   }
 
   insertNewList(): void {
-    if (!this.listTitle) {
+    this.submitted = true;
+
+    if (!this.listTitle || this.listTitle.length < 3) {
       return;
     }
+
     this.onInsertList.emit(this.listTitle);
     this.resetTheListTitle();
   }

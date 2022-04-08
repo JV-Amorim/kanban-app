@@ -22,8 +22,29 @@
       type="text"
       placeholder="Insert the list title..."
       data-testid="list-title-input"
+      required
+      minlength="3"
       [(ngModel)]="listTitle"
+      #listTitleInput="ngModel"
     >
+
+    <div *ngIf="listTitleInput.invalid && (submitted || listTitleInput.dirty || listTitleInput.touched)">
+      <span
+        *ngIf="listTitleInput.errors?.['required']"
+        class="input-error-message"
+        data-testid="input-required-error"
+      >
+        The list name cannot be empty.
+      </span>
+      <span
+        *ngIf="listTitleInput.errors?.['minlength']"
+        class="input-error-message"
+        data-testid="input-minlength-error"
+      >
+        The list name must have at least 3 characters.
+      </span>
+    </div>
+
     <button
       class="primary"
       data-testid="add-list-button"

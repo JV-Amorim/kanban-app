@@ -56,3 +56,10 @@ input {
   outline-width: 2px;
   outline-color: $app-primary-color;
 }
+
+.input-error-message {
+  display: block;
+  color: $app-error-color;
+  font-size: 12px;
+  margin: 5px 0px;
+}
