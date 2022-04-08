@@ -92,6 +92,29 @@ describe('KanbanBoardButtonComponent', () => {
     
   });
 
+  describe('list title input validations', () => {
+
+    it('set submitted state as true when the add button is clicked', () => {
+      TestUtils.triggerElementClick(fixture, 'kanban-board-button');
+      fixture.detectChanges();
+
+      TestUtils.triggerElementClick(fixture, 'add-list-button');
+
+      expect(component.submitted).toBe(true);
+    });
+
+    it('set submitted state as false when the input panel closes', () => {
+      TestUtils.triggerElementClick(fixture, 'kanban-board-button');
+      fixture.detectChanges();
+
+      TestUtils.triggerElementClick(fixture, 'add-list-button');
+      TestUtils.triggerElementClick(fixture, 'close-panel-button');
+
+      expect(component.submitted).toBe(false);
+    });
+
+  });
+
   describe('list insertion', () => {
     
     it('emits a single onInsertList event when the add button is clicked', () => {
