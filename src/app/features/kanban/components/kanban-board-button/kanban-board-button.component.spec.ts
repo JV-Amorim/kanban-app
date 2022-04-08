@@ -48,7 +48,7 @@ describe('KanbanBoardButtonComponent', () => {
     });
   
     it('closes the input panel when the close button is clicked', () => {
-      openInputPanel(fixture);  
+      openInputPanel(fixture);
       TestUtils.triggerElementClick(fixture, 'close-panel-button');
       fixture.detectChanges();
   
@@ -58,13 +58,39 @@ describe('KanbanBoardButtonComponent', () => {
     });
   
     it('closes the input panel when the "Escape" key is pressed', () => {
-      openInputPanel(fixture);  
+      openInputPanel(fixture);
       TestUtils.triggerDocumentKeyUp('Escape');
       fixture.detectChanges();
   
       expect(component.isTheInputPanelOpen).toBe(false);
       TestUtils.expectElementToBeFalsy(fixture, 'board-input-panel');
       TestUtils.expectElementToBeTruthy(fixture, 'kanban-board-button');
+    });
+  
+    it('closes the input panel when add button is clicked and valid input is inserted', () => {
+      openInputPanel(fixture);
+      TestUtils.setInputElementValue(fixture, 'list-title-input', 'My List');
+      TestUtils.triggerElementClick(fixture, 'add-list-button');
+      fixture.detectChanges();
+
+      expect(component.isTheInputPanelOpen).toBe(false);
+      TestUtils.expectElementToBeFalsy(fixture, 'board-input-panel');
+      TestUtils.expectElementToBeTruthy(fixture, 'kanban-board-button');
+    });
+
+    it('set submitted state as true when the add button is clicked', () => {
+      openInputPanel(fixture);
+      TestUtils.triggerElementClick(fixture, 'add-list-button');
+
+      expect(component.submitted).toBe(true);
+    });
+
+    it('set submitted state as false when the input panel closes', () => {
+      openInputPanel(fixture);
+      TestUtils.triggerElementClick(fixture, 'add-list-button');
+      TestUtils.triggerElementClick(fixture, 'close-panel-button');
+
+      expect(component.submitted).toBe(false);
     });
   
   });
@@ -89,25 +115,6 @@ describe('KanbanBoardButtonComponent', () => {
     
   });
 
-  describe('list title input validations', () => {
-
-    it('set submitted state as true when the add button is clicked', () => {
-      openInputPanel(fixture);
-      TestUtils.triggerElementClick(fixture, 'add-list-button');
-
-      expect(component.submitted).toBe(true);
-    });
-
-    it('set submitted state as false when the input panel closes', () => {
-      openInputPanel(fixture);
-      TestUtils.triggerElementClick(fixture, 'add-list-button');
-      TestUtils.triggerElementClick(fixture, 'close-panel-button');
-
-      expect(component.submitted).toBe(false);
-    });
-
-  });
-
   describe('list insertion', () => {
     
     it('emits a single onInsertList event when the add button is clicked', () => {
@@ -130,6 +137,15 @@ describe('KanbanBoardButtonComponent', () => {
       expect(component.onInsertList.emit).not.toHaveBeenCalled();
     });
 
+    it('shows "required" error message if the list title is empty', () => {
+      openInputPanel(fixture);
+      TestUtils.setInputElementValue(fixture, 'list-title-input', '');
+      TestUtils.triggerElementClick(fixture, 'add-list-button');
+      fixture.detectChanges();
+
+      TestUtils.expectElementToBeTruthy(fixture, 'input-required-error')
+    });
+
     it('not emits an onInsertList event if the list title length is lesser than 3', () => {
       spyOn(component.onInsertList, 'emit');
 
@@ -138,6 +154,15 @@ describe('KanbanBoardButtonComponent', () => {
       TestUtils.triggerElementClick(fixture, 'add-list-button');
 
       expect(component.onInsertList.emit).not.toHaveBeenCalled();
+    });
+
+    it('shows "minlength" error message if the list title length is lesser than 3', () => {
+      openInputPanel(fixture);
+      TestUtils.setInputElementValue(fixture, 'list-title-input', 'ab');
+      TestUtils.triggerElementClick(fixture, 'add-list-button');
+      fixture.detectChanges();
+
+      TestUtils.expectElementToBeTruthy(fixture, 'input-minlength-error')
     });
 
   });

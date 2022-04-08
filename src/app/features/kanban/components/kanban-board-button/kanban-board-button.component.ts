@@ -44,7 +44,7 @@ export class KanbanBoardButtonComponent implements OnDestroy {
     }
 
     this.onInsertList.emit(this.listTitle);
-    this.resetTheListTitle();
+    this.closeTheInputPanel();
   }
 
   private subscribeToKeyboardEvents(): void {
