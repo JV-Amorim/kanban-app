@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { KanbanBoardButtonComponent } from './kanban-board-button.component';
-import { KanbanService } from '@features/kanban/services/kanban.service';
 import { TestUtils } from '@core/utils';
 
 describe('KanbanBoardButtonComponent', () => {
@@ -95,32 +94,40 @@ describe('KanbanBoardButtonComponent', () => {
 
   describe('list insertion', () => {
     
-    it('emits an onInsertList event when the add button is clicked', () => {
+    it('emits a single onInsertList event when the add button is clicked', () => {
+      spyOn(component.onInsertList, 'emit');
+
       TestUtils.triggerElementClick(fixture, 'kanban-board-button');
       fixture.detectChanges();
 
       TestUtils.setInputElementValue(fixture, 'list-title-input', 'My List');
-
-      let actualListTitle: string | undefined;
-      component.onInsertList.subscribe((listTitle) => actualListTitle = listTitle);
-
       TestUtils.triggerElementClick(fixture, 'add-list-button');
 
-      expect(actualListTitle).toBe('My List');
+      expect(component.onInsertList.emit).toHaveBeenCalledOnceWith('My List');
     });
 
     it('not emits an onInsertList event if the list title is empty', () => {
+      spyOn(component.onInsertList, 'emit');
+
       TestUtils.triggerElementClick(fixture, 'kanban-board-button');
       fixture.detectChanges();
 
       TestUtils.setInputElementValue(fixture, 'list-title-input', '');
-
-      let actualListTitle: string | undefined;
-      component.onInsertList.subscribe((listTitle) => actualListTitle = listTitle);
-
       TestUtils.triggerElementClick(fixture, 'add-list-button');
 
-      expect(actualListTitle).toBe(undefined);
+      expect(component.onInsertList.emit).not.toHaveBeenCalled();
+    });
+
+    it('not emits an onInsertList event if the list title length is lesser than 3', () => {
+      spyOn(component.onInsertList, 'emit');
+
+      TestUtils.triggerElementClick(fixture, 'kanban-board-button');
+      fixture.detectChanges();
+
+      TestUtils.setInputElementValue(fixture, 'list-title-input', 'ab');
+      TestUtils.triggerElementClick(fixture, 'add-list-button');
+
+      expect(component.onInsertList.emit).not.toHaveBeenCalled();
     });
 
   });
