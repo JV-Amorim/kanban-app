@@ -76,7 +76,6 @@ describe('KanbanBoardComponent', () => {
     it('renders the correct quantity of kanban-list', () => {
       const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
 
-      expect(fakeKanbanService.getKanbanBoardSubject).toHaveBeenCalled();
       expect(kanbanListElements.length).toBe(kanbanBoardData.length);
     });
 
