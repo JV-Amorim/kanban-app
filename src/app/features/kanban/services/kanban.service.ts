@@ -9,11 +9,24 @@ export class KanbanService {
 
   private readonly browserStorageKey = 'kanban-board-data';
   private kanbanBoardSubject: BehaviorSubject<KanbanBoard>;
-  private lastEmittedKanbanBoard: KanbanBoard;
+  private lastEmittedKanbanBoard: KanbanBoard = [];
 
   constructor(private browserStorageService: BrowserStorageService) {
-    this.lastEmittedKanbanBoard = [];
+    this.getInitialKanbanBoardData();
     this.kanbanBoardSubject = new BehaviorSubject<KanbanBoard>(this.lastEmittedKanbanBoard);
+  }
+
+  private getInitialKanbanBoardData(): void {
+    let initialData: KanbanBoard | null;
+
+    try {
+      initialData = this.browserStorageService.getItem(this.browserStorageKey);
+    }
+    catch {
+      initialData = null;
+    }
+
+    this.lastEmittedKanbanBoard = initialData ?? [];
   }
 
   getKanbanBoardSubject(): BehaviorSubject<KanbanBoard> {
