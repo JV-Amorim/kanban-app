@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 
+import { BrowserStorageService } from '@core/services/browser-storage.service';
 import { KanbanBoard, KanbanCard, KanbanErrors, KanbanList } from '../models';
 
 @Injectable()
 export class KanbanService {
 
+  private readonly browserStorageKey = 'kanban-board-data';
   private kanbanBoardSubject: BehaviorSubject<KanbanBoard>;
   private lastEmittedKanbanBoard: KanbanBoard;
 
-  constructor() {
+  constructor(private browserStorageService: BrowserStorageService) {
     this.lastEmittedKanbanBoard = [];
     this.kanbanBoardSubject = new BehaviorSubject<KanbanBoard>(this.lastEmittedKanbanBoard);
   }
@@ -25,9 +27,18 @@ export class KanbanService {
       id: kanbanBoard.length + 1,
       title: listTitle,
       childrenCards: []
-    };    
-
+    };
+    
     kanbanBoard.push(newList);
+
+    try {
+      this.browserStorageService.insertItem(this.browserStorageKey, kanbanBoard);
+    }
+    catch (error) {
+      kanbanBoard.pop();
+      return throwError(() => error);
+    }
+
     this.emitUpdatedKanbanBoard(kanbanBoard);
     
     return of(newList);
@@ -57,6 +68,15 @@ export class KanbanService {
     };
 
     parentList.childrenCards.push(newCard);
+
+    try {
+      this.browserStorageService.insertItem(this.browserStorageKey, kanbanBoard);
+    }
+    catch (error) {
+      parentList.childrenCards.pop();
+      return throwError(() => error);
+    }
+
     this.emitUpdatedKanbanBoard(kanbanBoard);
 
     return of(newCard);
