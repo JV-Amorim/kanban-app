@@ -9,16 +9,10 @@ import { TestUtils } from '@core/utils';
 import { KanbanBoardComponent } from './kanban-board.component';
 import { KanbanBoardButtonComponent } from '../kanban-board-button/kanban-board-button.component';
 import { KanbanService } from '@features/kanban/services/kanban.service';
-import { KanbanBoard, KanbanList } from '@features/kanban/models';
+import { KanbanBoard, kanbanBoardMock } from '@features/kanban/models';
 import { KanbanListComponent } from '../kanban-list/kanban-list.component';
 
 describe('KanbanBoardComponent', () => {
-
-  const kanbanBoardData: KanbanBoard = [
-    { id: 1, title: 'My First List', childrenCards: [] },
-    { id: 2, title: 'My Second List', childrenCards: [] },
-    { id: 3, title: 'My Third List', childrenCards: [] }
-  ];
 
   let component: KanbanBoardComponent;
   let fixture: ComponentFixture<KanbanBoardComponent>;
@@ -27,7 +21,7 @@ describe('KanbanBoardComponent', () => {
 
   beforeEach(async () => {
     fakeKanbanService = jasmine.createSpyObj<KanbanService>('KanbanService', {
-      getKanbanBoardSubject: new BehaviorSubject<KanbanBoard>(kanbanBoardData)
+      getKanbanBoardSubject: new BehaviorSubject<KanbanBoard>(kanbanBoardMock)
     });
 
     await TestBed.configureTestingModule({
@@ -81,11 +75,11 @@ describe('KanbanBoardComponent', () => {
     it('renders the correct quantity of kanban-list', () => {
       const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
 
-      expect(kanbanListElements.length).toBe(kanbanBoardData.length);
+      expect(kanbanListElements.length).toBe(kanbanBoardMock.length);
     });
 
     it('update the rendered kanban-lists with new data', () => {
-      const newKanbanBoardData = kanbanBoardData.slice(0, 2);
+      const newKanbanBoardData = kanbanBoardMock.slice(0, 2);
       
       const kanbanBoardSubject = fakeKanbanService.getKanbanBoardSubject();
       kanbanBoardSubject.next(newKanbanBoardData);
