@@ -9,7 +9,8 @@ import { TestUtils } from '@core/utils';
 import { KanbanBoardComponent } from './kanban-board.component';
 import { KanbanBoardButtonComponent } from '../kanban-board-button/kanban-board-button.component';
 import { KanbanService } from '@features/kanban/services/kanban.service';
-import { KanbanBoard } from '@features/kanban/models';
+import { KanbanBoard, KanbanList } from '@features/kanban/models';
+import { KanbanListComponent } from '../kanban-list/kanban-list.component';
 
 describe('KanbanBoardComponent', () => {
 
@@ -30,7 +31,11 @@ describe('KanbanBoardComponent', () => {
     });
 
     await TestBed.configureTestingModule({
-      declarations: [ KanbanBoardComponent, MockComponent(KanbanBoardButtonComponent) ],
+      declarations: [
+        KanbanBoardComponent,
+        MockComponent(KanbanBoardButtonComponent),
+        MockComponent(KanbanListComponent)
+      ],
       imports: [ MatSnackBarModule ],
       providers: [
         { provide: KanbanService, useValue: fakeKanbanService }
@@ -89,6 +94,15 @@ describe('KanbanBoardComponent', () => {
       const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
 
       expect(kanbanListElements.length).toBe(newKanbanBoardData.length);
+    });
+
+    it('assigns a KanbanList object to each kanban-list child component', () => {
+      const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
+
+      for (const kanbanListElement of kanbanListElements) {
+        const kanbanListComponent: KanbanListComponent = kanbanListElement.componentInstance;
+        expect(kanbanListComponent.kanbanList).toBeTruthy();
+      }
     });
 
   });
