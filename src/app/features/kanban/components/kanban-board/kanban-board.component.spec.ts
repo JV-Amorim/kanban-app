@@ -21,7 +21,8 @@ describe('KanbanBoardComponent', () => {
 
   beforeEach(async () => {
     fakeKanbanService = jasmine.createSpyObj<KanbanService>('KanbanService', {
-      getKanbanBoardSubject: new BehaviorSubject<KanbanBoard>(kanbanBoardMock)
+      getKanbanBoardSubject: new BehaviorSubject<KanbanBoard>(kanbanBoardMock),
+      insertNewList: undefined
     });
 
     await TestBed.configureTestingModule({
@@ -60,12 +61,15 @@ describe('KanbanBoardComponent', () => {
       expect(kanbanBoardButton).toBeTruthy();
     });
   
-    it('listens for onInsertList events', () => {
-      spyOn(component, 'handleInsertListEvent');
+    it('listens for onInsertList events to insert a new list', () => {
+      spyOn(component, 'handleInsertListEvent').and.callThrough();
   
-      kanbanBoardButton.onInsertList.emit('My List');
+      const listName = 'My List';
+
+      kanbanBoardButton.onInsertList.emit(listName);
   
-      expect(component.handleInsertListEvent).toHaveBeenCalledWith('My List');
+      expect(component.handleInsertListEvent).toHaveBeenCalledWith(listName);
+      expect(fakeKanbanService.insertNewList).toHaveBeenCalledOnceWith(listName);
     });
     
   });
