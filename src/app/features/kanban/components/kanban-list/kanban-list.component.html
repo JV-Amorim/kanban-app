@@ -1,1 +1,19 @@
-<p *ngIf="kanbanList">{{ kanbanList.id }} | {{ kanbanList.title }}</p>
+<div *ngIf="kanbanList" class="kanban-list">
+  <header>
+    <p>{{ kanbanList.title }}</p>
+    <app-svg-icon
+      class="icon"
+      [iconName]="'black-more'"
+      [iconAltText]="'•••'"
+      [iconSize]="14"
+    ></app-svg-icon>
+  </header>
+
+  <div class="kanban-list-items">
+    <app-kanban-list-item
+      *ngFor="let childrenCard of kanbanList.childrenCards"
+      [kanbanCard]="childrenCard"
+    ></app-kanban-list-item>
+    <app-kanban-list-button></app-kanban-list-button>
+  </div>
+</div>

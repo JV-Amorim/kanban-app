@@ -9,13 +9,15 @@ import { KanbanListItemComponent } from './components/kanban-list-item/kanban-li
 import { KanbanBoardButtonComponent } from './components/kanban-board-button/kanban-board-button.component';
 import { KanbanService } from './services/kanban.service';
 import { SvgIconModule } from '@shared/svg-icon/svg-icon.module';
+import { KanbanListButtonComponent } from './components/kanban-list-button/kanban-list-button.component';
 
 @NgModule({
   declarations: [
     KanbanBoardComponent,
     KanbanListComponent,
     KanbanListItemComponent,
-    KanbanBoardButtonComponent
+    KanbanBoardButtonComponent,
+    KanbanListButtonComponent
   ],
   imports: [
     CommonModule,

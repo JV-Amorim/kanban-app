@@ -1,0 +1,15 @@
+.kanban-list-button {
+  width: 100%;
+  text-align: left;
+  padding: 5px 0px;
+  color: #929292;
+  border: none;
+  border-radius: 3px;
+  background-color: transparent;
+  transition: background-color 300ms;
+}
+
+.kanban-list-button:hover {
+  cursor: pointer;
+  background-color: rgba($color: #000000, $alpha: 0.03);
+}

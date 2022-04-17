@@ -20,6 +20,10 @@
   background-color: rgba($color: #FFFFFF, $alpha: 0.4);
 }
 
+#kanban-board-button, #board-input-panel {
+  box-shadow: 0px 1px 4px rgba($color: #000000, $alpha: 0.2);
+}
+
 #board-input-panel {
   padding: 5px;
   background-color: $panel-bg-color;
