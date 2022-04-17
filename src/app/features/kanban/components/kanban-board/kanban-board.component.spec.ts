@@ -55,54 +55,46 @@ describe('KanbanBoardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('kanban-board-button child component', () => {
-
-    it('renders an independent kanban-board-button', () => {
-      expect(kanbanBoardButton).toBeTruthy();
-    });
-  
-    it('listens for onInsertList events to insert a new list', () => {
-      spyOn(component, 'handleInsertListEvent').and.callThrough();
-  
-      const listName = 'My List';
-
-      kanbanBoardButton.onInsertList.emit(listName);
-  
-      expect(component.handleInsertListEvent).toHaveBeenCalledWith(listName);
-      expect(fakeKanbanService.insertNewList).toHaveBeenCalledOnceWith(listName);
-    });
-    
+  it('renders an independent kanban-board-button', () => {
+    expect(kanbanBoardButton).toBeTruthy();
   });
 
-  describe('kanban-list child components', () => {
+  it('listens for onInsertList events to insert a new list', () => {
+    spyOn(component, 'handleInsertListEvent').and.callThrough();
 
-    it('renders the correct quantity of kanban-list', () => {
-      const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
+    const listName = 'My List';
 
-      expect(kanbanListElements.length).toBe(kanbanBoardMock.length);
-    });
+    kanbanBoardButton.onInsertList.emit(listName);
 
-    it('update the rendered kanban-lists with new data', () => {
-      const newKanbanBoardData = kanbanBoardMock.slice(0, 2);
-      
-      const kanbanBoardSubject = fakeKanbanService.getKanbanBoardSubject();
-      kanbanBoardSubject.next(newKanbanBoardData);
-      fixture.detectChanges();
+    expect(component.handleInsertListEvent).toHaveBeenCalledWith(listName);
+    expect(fakeKanbanService.insertNewList).toHaveBeenCalledOnceWith(listName);
+  });
 
-      const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
+  it('renders the correct quantity of kanban-list', () => {
+    const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
 
-      expect(kanbanListElements.length).toBe(newKanbanBoardData.length);
-    });
+    expect(kanbanListElements.length).toBe(kanbanBoardMock.length);
+  });
 
-    it('assigns a KanbanList object to each kanban-list child component', () => {
-      const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
+  it('update the rendered kanban-lists with new data', () => {
+    const newKanbanBoardData = kanbanBoardMock.slice(0, 2);
+    
+    const kanbanBoardSubject = fakeKanbanService.getKanbanBoardSubject();
+    kanbanBoardSubject.next(newKanbanBoardData);
+    fixture.detectChanges();
 
-      for (const kanbanListElement of kanbanListElements) {
-        const kanbanListComponent: KanbanListComponent = kanbanListElement.componentInstance;
-        expect(kanbanListComponent.kanbanList).toBeTruthy();
-      }
-    });
+    const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
 
+    expect(kanbanListElements.length).toBe(newKanbanBoardData.length);
+  });
+
+  it('assigns a KanbanList object to each kanban-list child component', () => {
+    const kanbanListElements = TestUtils.findElementsByTagName(fixture, 'app-kanban-list');
+
+    for (const kanbanListElement of kanbanListElements) {
+      const kanbanListComponent: KanbanListComponent = kanbanListElement.componentInstance;
+      expect(kanbanListComponent.kanbanList).toBeTruthy();
+    }
   });
 
 });
