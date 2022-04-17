@@ -93,11 +93,21 @@ describe('KanbanService', () => {
     expect(actualNewKanbanCard?.parentList?.id).toBe(parentKanbanList.id);
   });
 
-  it('throws an error if fails to insert a new KanbanCard', () => {
+  it('throws an error if storage service fails to insert a new KanbanCard', () => {
     fakeBrowserStorageService.insertItem = jasmine.createSpy().and.throwError('');
 
     let hasDetectedError = false;
     service.insertNewCard('My Card', 1)
+      .subscribe({
+        error: () => hasDetectedError = true
+      });
+
+    expect(hasDetectedError).toBeTrue();
+  });
+
+  it('throws an error if receives an invalid parent list ID when inserting a new KanbanCard', () => {    
+    let hasDetectedError = false;
+    service.insertNewCard('My Card', -1)
       .subscribe({
         error: () => hasDetectedError = true
       });
